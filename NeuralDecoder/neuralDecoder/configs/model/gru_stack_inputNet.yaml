@@ -23,7 +23,7 @@ dropout: 0.4
 # Whether model weights are trainable
 trainable: True
 
-nLayers: 5
+nLayers: 9
 
 stack_kwargs:
   kernel_size: 14

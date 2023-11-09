@@ -9,7 +9,7 @@ class GRU(Model):
         actReg,
         subsampleFactor,
         nClasses,
-        bidirectional=False,
+        bidirectional=True,
         dropout=0.0,
         nLayers=2,
         conv_kwargs=None,
