@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#SBATCH --job-name=gru-large                    # Submit a job named "example"
+#SBATCH --job-name=example                    # Submit a job named "example"
 #SBATCH --nodes=1                             # Using 1 node
 #SBATCH --gres=gpu:1                          # Using 1 gpu
-#SBATCH --time=0-05:00:00                     # 1 hour timelimit
-#SBATCH --mem=20000MB                         # Using 10GB CPU Memory
+#SBATCH --time=0-04:00:00                     # 1 hour timelimit
+#SBATCH --mem=15000MB                         # Using 10GB CPU Memory
 #SBATCH --partition=class2                         # Using "b" partition 
-#SBATCH --cpus-per-task=8                     # Using 4 maximum processor JOB ID : 121444
+#SBATCH --cpus-per-task=8                     # Using 4 maximum processor JOB ID : 122251
 
 source ${HOME}/.bashrc
 source ${HOME}/anaconda3/bin/activate
@@ -18,6 +18,5 @@ srun python3 -m neuralDecoder.main \
     learnRateDecaySteps=10000 \
     nBatchesToTrain=10000  \
     learnRateStart=0.02 \
-    model.nUnits=2048 \
     model.stack_kwargs.kernel_size=32 \
-    outputDir=/home/s2/nlp002/pj_data/derived/gru-real-large/baselineRelease
+    outputDir=/home/s2/nlp002/pj_data/derived/lstm-base/baselineRelease
