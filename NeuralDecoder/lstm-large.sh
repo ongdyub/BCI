@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=gru-large                    # Submit a job named "example"
+#SBATCH --job-name=lstm-large                    # Submit a job named "example"
 #SBATCH --nodes=1                             # Using 1 node
 #SBATCH --gres=gpu:1                          # Using 1 gpu
 #SBATCH --time=0-05:00:00                     # 1 hour timelimit
@@ -19,4 +19,4 @@ srun python3 -m neuralDecoder.main \
     nBatchesToTrain=10000  \
     learnRateStart=0.02 \
     model.stack_kwargs.kernel_size=32 \
-    outputDir=/home/s2/nlp002/pj_data/derived/gru-real-large/baselineRelease
+    outputDir=/home/s2/nlp002/pj_data/derived/lstm-large/baselineRelease

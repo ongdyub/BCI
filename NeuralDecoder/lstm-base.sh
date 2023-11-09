@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#SBATCH --job-name=example                    # Submit a job named "example"
+#SBATCH --job-name=lstm-base                    # Submit a job named "example"
 #SBATCH --nodes=1                             # Using 1 node
 #SBATCH --gres=gpu:1                          # Using 1 gpu
 #SBATCH --time=0-04:00:00                     # 1 hour timelimit
-#SBATCH --mem=15000MB                         # Using 10GB CPU Memory
+#SBATCH --mem=20000MB                         # Using 10GB CPU Memory
 #SBATCH --partition=class2                         # Using "b" partition 
-#SBATCH --cpus-per-task=8                     # Using 4 maximum processor JOB ID : 122251
+#SBATCH --cpus-per-task=8                     # Using 4 maximum processor JOB ID : 122708
 
 source ${HOME}/.bashrc
 source ${HOME}/anaconda3/bin/activate

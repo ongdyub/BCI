@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=gru-deep                    # Submit a job named "example"
+#SBATCH --job-name=lstm-deep                    # Submit a job named "example"
 #SBATCH --nodes=1                             # Using 1 node
 #SBATCH --gres=gpu:1                          # Using 1 gpu
 #SBATCH --time=0-05:00:00                     # 1 hour timelimit

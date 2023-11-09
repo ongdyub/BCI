@@ -27,10 +27,25 @@ class GRU(Model):
         self.stack_kwargs = stack_kwargs
 
         if bidirectional:
-            self.initStates = [
-                tf.Variable(initial_value=kernel_init(shape=(1, units))),
-                tf.Variable(initial_value=kernel_init(shape=(1, units))),
-            ]
+            # GRU
+            # self.initStates = [
+            #     tf.Variable(initial_value=kernel_init(shape=(1, units))),
+            #     tf.Variable(initial_value=kernel_init(shape=(1, units))),
+            # ]
+            
+            # LSTM
+            self.initStates_f_cell = tf.Variable(
+                initial_value=kernel_init(shape=(1, units))
+            )
+            self.initStates_f_hidden = tf.Variable(
+                initial_value=kernel_init(shape=(1, units))
+            )
+            self.initStates_b_cell = tf.Variable(
+                initial_value=kernel_init(shape=(1, units))
+            )
+            self.initStates_b_hidden = tf.Variable(
+                initial_value=kernel_init(shape=(1, units))
+            )
         else:
             # gru
             # self.initStates = tf.Variable(initial_value=kernel_init(shape=(1, units)))
@@ -111,7 +126,11 @@ class GRU(Model):
         if states is None:
             states = []
             if self.bidirectional:
-                states.append([tf.tile(s, [batchSize, 1]) for s in self.initStates])
+                state_f_cell = tf.tile(self.initStates_f_cell, [batchSize, 1])
+                state_f_hidden = tf.tile(self.initStates_f_hidden, [batchSize, 1])
+                state_b_cell = tf.tile(self.initStates_b_cell, [batchSize, 1])
+                state_b_hidden = tf.tile(self.initStates_b_hidden, [batchSize, 1])
+                states.append([state_f_cell, state_f_hidden, state_b_cell, state_b_hidden])
             else:
                 state_cell = tf.tile(self.initStates_cell, [batchSize, 1])
                 state_hidden = tf.tile(self.initStates_hidden, [batchSize, 1])
@@ -121,13 +140,21 @@ class GRU(Model):
         new_states = []
         if self.bidirectional:
             for i, rnn in enumerate(self.rnnLayers):
-                x, forward_s, backward_s = rnn(
+                # GRU
+                # x, forward_s, backward_s = rnn(
+                #     x, training=training, initial_state=states[i]
+                # )
+                # if i == len(self.rnnLayers) - 2:
+                #     if self.subsampleFactor > 1:
+                #         x = x[:, :: self.subsampleFactor, :]
+                # LSTM
+                x, f_memory, f_carry, b_memory, b_Carry = rnn(
                     x, training=training, initial_state=states[i]
                 )
                 if i == len(self.rnnLayers) - 2:
                     if self.subsampleFactor > 1:
                         x = x[:, :: self.subsampleFactor, :]
-                new_states.append([forward_s, backward_s])
+                new_states.append([f_memory, f_carry, b_memory, b_Carry])
         else:
             for i, rnn in enumerate(self.rnnLayers):
                 # GRU

@@ -15,7 +15,7 @@ weightReg: 1e-5
 actReg: 0.0
 
 # Bidirectional RNN
-bidirectional: False
+bidirectional: True
 
 # GRU input linear layer dropout
 dropout: 0.4
