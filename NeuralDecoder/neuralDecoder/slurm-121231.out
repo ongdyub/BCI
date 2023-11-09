@@ -1,0 +1,2 @@
+/home/s2/nlp002/anaconda3/envs/pj/bin/python3: Error while finding module specification for 'neuralDecoder.main' (ModuleNotFoundError: No module named 'neuralDecoder')
+srun: error: a04: task 0: Exited with exit code 1
