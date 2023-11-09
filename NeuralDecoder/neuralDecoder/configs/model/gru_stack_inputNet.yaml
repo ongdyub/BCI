@@ -15,7 +15,7 @@ weightReg: 1e-5
 actReg: 0.0
 
 # Bidirectional RNN
-bidirectional: False
+bidirectional: True
 
 # GRU input linear layer dropout
 dropout: 0.4
@@ -23,7 +23,7 @@ dropout: 0.4
 # Whether model weights are trainable
 trainable: True
 
-nLayers: 9
+nLayers: 5
 
 stack_kwargs:
   kernel_size: 14
