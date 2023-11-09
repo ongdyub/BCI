@@ -34,14 +34,14 @@ class GRU(Model):
             ]
         else:
             # gru
-            # self.initStates = tf.Variable(initial_value=kernel_init(shape=(1, units)))
+            self.initStates = tf.Variable(initial_value=kernel_init(shape=(1, units)))
             # lstm / c & h state
-            self.initStates_cell = tf.Variable(
-                initial_value=kernel_init(shape=(1, units))
-            )
-            self.initStates_hidden = tf.Variable(
-                initial_value=kernel_init(shape=(1, units))
-            )
+            # self.initStates_cell = tf.Variable(
+            #     initial_value=kernel_init(shape=(1, units))
+            # )
+            # self.initStates_hidden = tf.Variable(
+            #     initial_value=kernel_init(shape=(1, units))
+            # )
 
         self.conv1 = None
         if conv_kwargs is not None:
@@ -56,26 +56,26 @@ class GRU(Model):
         self.rnnLayers = []
         for _ in range(nLayers):
             # GRU
-            # rnn = tf.keras.layers.GRU(units,
-            #                           return_sequences=True,
-            #                           return_state=True,
-            #                           kernel_regularizer=weightReg,
-            #                           activity_regularizer=actReg,
-            #                           recurrent_initializer=recurrent_init,
-            #                           kernel_initializer=kernel_init,
-            #                           dropout=dropout)
+            rnn = tf.keras.layers.GRU(units,
+                                      return_sequences=True,
+                                      return_state=True,
+                                      kernel_regularizer=weightReg,
+                                      activity_regularizer=actReg,
+                                      recurrent_initializer=recurrent_init,
+                                      kernel_initializer=kernel_init,
+                                      dropout=dropout)
 
             # LSTM
-            rnn = tf.keras.layers.LSTM(
-                units,
-                return_sequences=True,
-                return_state=True,
-                kernel_regularizer=weightReg,
-                activity_regularizer=actReg,
-                kernel_initializer="glorot_uniform",
-                recurrent_initializer="orthogonal",
-                dropout=dropout,
-            )
+            # rnn = tf.keras.layers.LSTM(
+            #     units,
+            #     return_sequences=True,
+            #     return_state=True,
+            #     kernel_regularizer=weightReg,
+            #     activity_regularizer=actReg,
+            #     kernel_initializer="glorot_uniform",
+            #     recurrent_initializer="orthogonal",
+            #     dropout=dropout,
+            # )
             self.rnnLayers.append(rnn)
         if bidirectional:
             self.rnnLayers = [
@@ -100,24 +100,24 @@ class GRU(Model):
             x = self.conv1(x)
 
         # GRU
-        # if states is None:
-        #     states = []
-        #     if self.bidirectional:
-        #         states.append([tf.tile(s, [batchSize, 1]) for s in self.initStates])
-        #     else:
-        #         states.append(tf.tile(self.initStates, [batchSize, 1]))
-        #     states.extend([None] * (len(self.rnnLayers) - 1))
-
-        # LSTM
         if states is None:
             states = []
             if self.bidirectional:
                 states.append([tf.tile(s, [batchSize, 1]) for s in self.initStates])
             else:
-                state_cell = tf.tile(self.initStates_cell, [batchSize, 1])
-                state_hidden = tf.tile(self.initStates_hidden, [batchSize, 1])
-                states.append([state_cell, state_hidden])
+                states.append(tf.tile(self.initStates, [batchSize, 1]))
             states.extend([None] * (len(self.rnnLayers) - 1))
+
+        # LSTM
+        # if states is None:
+        #     states = []
+        #     if self.bidirectional:
+        #         states.append([tf.tile(s, [batchSize, 1]) for s in self.initStates])
+        #     else:
+        #         state_cell = tf.tile(self.initStates_cell, [batchSize, 1])
+        #         state_hidden = tf.tile(self.initStates_hidden, [batchSize, 1])
+        #         states.append([state_cell, state_hidden])
+        #     states.extend([None] * (len(self.rnnLayers) - 1))
 
         new_states = []
         if self.bidirectional:
@@ -132,13 +132,14 @@ class GRU(Model):
         else:
             for i, rnn in enumerate(self.rnnLayers):
                 # GRU
-                # x, s = rnn(x, training=training, initial_state=states[i])
+                x, s = rnn(x, training=training, initial_state=states[i])
+                new_states.append(s)
                 # LSTM
-                x, memory, carry = rnn(x, training=training, initial_state=states[i])
-                if i == len(self.rnnLayers) - 2:
-                    if self.subsampleFactor > 1:
-                        x = x[:, :: self.subsampleFactor, :]
-                new_states.append([memory, carry])
+                # x, memory, carry = rnn(x, training=training, initial_state=states[i])
+                # if i == len(self.rnnLayers) - 2:
+                #     if self.subsampleFactor > 1:
+                #         x = x[:, :: self.subsampleFactor, :]
+                # new_states.append([memory, carry])
 
         x = self.dense(x, training=training)
 

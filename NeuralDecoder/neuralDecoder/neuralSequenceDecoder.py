@@ -656,11 +656,11 @@ class NeuralSequenceDecoder(object):
                 savedCkpt = self.ckptManager.save(checkpoint_number=batchIdx)
                 print(f"Checkpoint saved {savedCkpt}")
                 
-        with open('record_train_loss.pkl', 'wb') as file:
+        with open('../record_train_loss.pkl', 'wb') as file:
             pickle.dump(record_train_loss, file)
-        with open('record_gradNorm.pkl', 'wb') as file:
+        with open('../record_gradNorm.pkl', 'wb') as file:
             pickle.dump(record_gradNorm, file)
-        with open('record_cer.pkl', 'wb') as file:
+        with open('../record_cer.pkl', 'wb') as file:
             pickle.dump(record_cer, file)
             
         return float(bestValCer)
