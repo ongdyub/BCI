@@ -1,3 +1,4 @@
+# Base GRU Version
 #number of units in each GRU layer
 nUnits: 512
 
@@ -38,3 +39,6 @@ inputNetwork:
   trainable: True
   activation: softsign
   dropout: 0.2
+
+
+
