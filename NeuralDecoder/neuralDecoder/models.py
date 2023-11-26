@@ -98,9 +98,18 @@ class GRU(Model):
         self.dense = tf.keras.layers.Dense(nClasses)
 
     def call(self, x, states=None, training=False, returnState=False):
+        # print()
+        print("$$$$$ Call start $$$$$$4")
+        
         batchSize = tf.shape(x)[0]
+        print("batchsize")
+        print(batchSize)
+        print(" x info")
+        print(x.shape) # 20 ? 40, 변함, 256
 
         if self.stack_kwargs is not None:
+            # print("flag 1")
+            # val 들어온다 train은 프린트안되는데...
             x = tf.image.extract_patches(
                 x[:, None, :, :],
                 sizes=[1, 1, self.stack_kwargs["kernel_size"], 1],
@@ -111,6 +120,8 @@ class GRU(Model):
             x = tf.squeeze(x, axis=1)
 
         if self.conv1 is not None:
+            print("flag 2")
+            # train 할때 안들어옴
             x = self.conv1(x)
 
         # GRU
@@ -123,6 +134,7 @@ class GRU(Model):
         #     states.extend([None] * (len(self.rnnLayers) - 1))
 
         # LSTM
+        print("state None")
         if states is None:
             states = []
             if self.bidirectional:
@@ -136,7 +148,10 @@ class GRU(Model):
                 state_hidden = tf.tile(self.initStates_hidden, [batchSize, 1])
                 states.append([state_cell, state_hidden])
             states.extend([None] * (len(self.rnnLayers) - 1))
+        print(len(states))
+        print(len(states[0]))
 
+        print("New state")
         new_states = []
         if self.bidirectional:
             for i, rnn in enumerate(self.rnnLayers):
@@ -166,18 +181,19 @@ class GRU(Model):
                     if self.subsampleFactor > 1:
                         x = x[:, :: self.subsampleFactor, :]
                 new_states.append([memory, carry])
+        print(len(new_states))
 
+        print("Before dense")
+        print(x.shape)
         x = self.dense(x, training=training)
+
+        print("Fianl")
+        print(x.shape)
 
         if returnState:
             return x, new_states
         else:
             return x
-
-    # TODO: Fix me
-    def getIntermediateLayerOutput(self, x):
-        x, _ = self.rnn1(x)
-        return x
 
     def getSubsampledTimeSteps(self, timeSteps):
         timeSteps = tf.cast(timeSteps / self.subsampleFactor, dtype=tf.int32)

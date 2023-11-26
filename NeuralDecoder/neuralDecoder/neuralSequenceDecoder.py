@@ -115,7 +115,7 @@ class NeuralSequenceDecoder(object):
                 )
             )
         self.model.trainable = self.args["model"].get("trainable", True)
-        self.model.summary()
+        # self.model.summary()
 
         self._prepareForTraining()
 
@@ -178,7 +178,7 @@ class NeuralSequenceDecoder(object):
             inputModel.trainable = self.args["model"]["inputNetwork"].get(
                 "trainable", True
             )
-            inputModel.summary()
+            # inputModel.summary()
 
             self.inputLayers.append(inputModel)
             self.normLayers.append(normLayer)
@@ -577,7 +577,18 @@ class NeuralSequenceDecoder(object):
                     np.random.multinomial(1, self.args["dataset"]["datasetProbability"])
                 )[0][0]
             )
+            # print("/////////////// dataset IDx /////////////////")
+            # print(datasetIdx)
+            # print("")
+            # # 2
+            
             layerIdx = self.args["dataset"]["datasetToLayerMap"][datasetIdx]
+            
+            
+            # print("/////////////// dataset IDx /////////////////")
+            # print(layerIdx)
+            # print("")
+            # # 2
 
             dtStart = datetime.now()
             try:
@@ -795,7 +806,65 @@ class NeuralSequenceDecoder(object):
     @tf.function()
     def _trainStep(self, datasetIdx, layerIdx):
         # loss function & regularization
+        # print(" /////// self.train Dataset Selectyor  ////// ")
+        # print(self.trainDatasetSelector)
+        # {0: <function NeuralSequenceDecoder._prepareForTraining.<locals>.<lambda> at 0x7fa4fc07b160>, 1: <function NeuralSequenceDecoder._prepareForTraining.<locals>.<lambda> at 0x7fa4fc07b550>, 2: <function NeuralSequenceDecoder._prepareForTraining.<locals>.<lambda> at 0x7fa4fc07bdc0>,
+        
         data = tf.switch_case(datasetIdx, self.trainDatasetSelector)
+        
+        # print("$$$ data")
+        # print(data)
+        # in data[...]
+        # inputFeature N,N,256
+        # newClassSignal n,n,n
+        # seqClassIDs n,500
+        # nTimeSteps n,
+        # nSeqElements n,
+        # ceMask n,n
+        # transcription n,500
+        
+        # tf.print("")
+        # tf.print("--------------------- DATA -------------------")
+        # about Input
+        # tf.print(len(data["inputFeatures"][0]))
+        # tf.print(len(data["inputFeatures"][1]))
+        # tf.print(len(data["inputFeatures"][2])) # 똑같 max값임
+        # tf.print("")
+        # tf.print(data["nTimeSteps"][0]) 진짜 필요한 각각 idx 한계갑
+        # tf.print(data["nTimeSteps"][1])
+        # tf.print(data["nTimeSteps"][2])
+        # tf.print("")
+        # tf.print(data["inputFeatures"][0][data["nTimeSteps"][0]-2])
+        # tf.print(data["inputFeatures"][0][data["nTimeSteps"][0]-1])
+        # tf.print(data["inputFeatures"][0][data["nTimeSteps"][0]])
+        # tf.print(data["inputFeatures"][0][data["nTimeSteps"][0]+1])
+        # tf.print(data["inputFeatures"][0][data["nTimeSteps"][0]+2])
+        
+        # about 정답 음소 순서
+        # tf.print("")
+        # tf.print(data["nSeqElements"][0])
+        # tf.print(data["nSeqElements"][1])
+        # tf.print(data["nSeqElements"][2])
+        # tf.print("")
+        # tf.print(data["seqClassIDs"][0][data["nSeqElements"][0]+2]) # 0
+        # tf.print(data["seqClassIDs"][0][data["nSeqElements"][0]+1]) # 0
+        # tf.print(data["seqClassIDs"][0][data["nSeqElements"][0]]) # 0
+        # tf.print(data["seqClassIDs"][0][data["nSeqElements"][0]-1]) # 40
+        # tf.print(data["seqClassIDs"][0][data["nSeqElements"][0]-2]) # 마지막 음소 class
+        # tf.print(data["seqClassIDs"][0][data["nSeqElements"][0]-3])
+        
+        # about 정답 문자 ascii값 / 500 max length로 0 padding / 어디까지 유효한지는 안나옴
+        # tf.print("")
+        # tf.print(len(data["transcription"][0])) # 500
+        # tf.print(data["transcription"][0])
+        # tf.print(data["transcription"][0][data["nSeqElements"][0]+2])
+        # tf.print(data["transcription"][0][data["nSeqElements"][0]+1])
+        # tf.print(data["transcription"][0][data["nSeqElements"][0]+0])
+        # tf.print(data["transcription"][0][data["nSeqElements"][0]-1])
+        # tf.print(data["transcription"][0][data["nSeqElements"][0]-2])
+        # tf.print(data["transcription"][0][data["nSeqElements"][0]-3])
+        # tf.print("--------------------- FIN DATA -------------------")
+        # tf.print("")
 
         inputTransformSelector = {}
         for x in range(self.nInputLayers):
@@ -809,13 +878,45 @@ class NeuralSequenceDecoder(object):
 
         with tf.GradientTape() as tape:
             inputTransformedFeatures = tf.switch_case(layerIdx, inputTransformSelector)
+            # print("#################### input formed #################")
+            # print(inputTransformedFeatures.shape)
+            # (None, None, 256)
+            # print(len(inputTransformedFeatures[0]))
+            # print(inputTransformedFeatures[0])
+            # 904, 493, 847, 494, 469 ... 
+            
+            
             predictions = self.model(inputTransformedFeatures, training=True)
+            
+            # tf.print(" ################# predictions #####################")
+            # print(predictions)
+            # print(predictions.shape)
+            # tf.print(predictions)
+            # tf.print(len(predictions)) # 64
+            # tf.print(len(predictions[0])) # 202 <- change
+            # tf.print(len(predictions[0][0])) # 41
+            # (None, None, 41)
+            
+            # tf.print("@@@@@@@@@ model @@@@@@@@@@")
+            # tf.print(self.model.losses)
+            # tf.print(len(self.model.losses)) # 5
+            
+            
             regularization_loss = tf.math.add_n(self.model.losses) + tf.math.add_n(
                 tf.switch_case(layerIdx, regLossSelector)
             )
 
             batchSize = tf.shape(data["inputFeatures"])[0]
             if self.args["lossType"] == "ctc":
+                # train in here
+                # print("CTC")
+                # tf.print("CTC")
+                # tf.print(data["seqClassIDs"]) # [[37 34 ...][10 11 ...]...[... 0 0]]
+                # tf.print(len(data["seqClassIDs"])) # 64 고정
+                # tf.print(len(data["seqClassIDs"][0])) # 500 고정
+                # tf.print(len(data["seqClassIDs"][0][0])) # Error
+                
+                
                 sparseLabels = tf.cast(
                     tf.sparse.from_dense(data["seqClassIDs"]), dtype=tf.int32
                 )
@@ -824,8 +925,20 @@ class NeuralSequenceDecoder(object):
                     values=sparseLabels.values - 1,
                     dense_shape=[batchSize, self.args["dataset"]["maxSeqElements"]],
                 )
+                # tf.print("@#$%@#$!@!$%@$@$#!@@^#!@%$%#@$$#%$@#%$^%#$@#^%$@$#")
+                # tf.print(batchSize) # 64
+                # tf.print(self.args["dataset"]["maxSeqElements"]) # 500
+                
+                # tf.print("Spare Label")
+                # tf.print(sparseLabels.values) # [19 0 21 ... 23 39]
+                # tf.print(len(sparseLabels.values))
+                # tf.print(sparseLabels.shape) # n,500
+                # tf.print(len(sparseLabels)) # 64 고정
+                # tf.print(len(sparseLabels[0])) # error
+                # tf.print(len(sparseLabels[0][0]))
 
                 nTimeSteps = self.model.getSubsampledTimeSteps(data["nTimeSteps"])
+                
                 pred_loss = tf.compat.v1.nn.ctc_loss_v2(
                     sparseLabels,
                     predictions,
@@ -840,6 +953,7 @@ class NeuralSequenceDecoder(object):
                 pred_loss = tf.reduce_mean(pred_loss)
 
             elif self.args["lossType"] == "ce":
+                print("CE")
                 mask = tf.tile(
                     data["ceMask"][:, :, tf.newaxis],
                     [1, 1, self.args["dataset"]["nClasses"]],
@@ -857,6 +971,7 @@ class NeuralSequenceDecoder(object):
                 )
                 pred_loss += newClassSignalError
 
+            
             total_loss = pred_loss + regularization_loss
 
         # compute gradients + clip
