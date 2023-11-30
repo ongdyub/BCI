@@ -61,10 +61,10 @@ seed: -1
 batchesPerSave: 0
 
 #how often to run a validation diagnostic batch
-batchesPerVal: 50
+batchesPerVal: 500
 
 #how many minibatches to use total
-nBatchesToTrain: 100000
+nBatchesToTrain: 200000
 
 #number of sentence snippets to include in the minibatch
 batchSize: 64

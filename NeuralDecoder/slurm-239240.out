@@ -1,0 +1,310 @@
+/home/s2/nlp002/BCI/NeuralDecoder/neuralDecoder/main.py:12: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path='configs', config_name='config')
+/home/s2/nlp002/anaconda3/envs/pj/lib/python3.9/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/home/s2/nlp002/anaconda3/envs/pj/lib/python3.9/site-packages/hydra/_internal/hydra.py:119: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  ret = run_job(
+2023-12-01 00:54:35.806936: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-12-01 00:54:37.796946: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 22369 MB memory:  -> device: 0, name: NVIDIA TITAN RTX, pci bus id: 0000:86:00.0, compute capability: 7.5
+---------------------------
+---------------------------
+---------------------------
+---------------------------
+True
+1
+---------------------------
+---------------------------
+---------------------------
+---------------------------
+Setting CUDA_VISIBLE_DEVICES to 0
+Output dir /home/s2/nlp002/pj_data/derived/tr_ph_500val/baselineRelease
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.04.28/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.04.28/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.05/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.05/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.17/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.17/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.19/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.19/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.24/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.24/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.26/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.05.26/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.02/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.02/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.07/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.07/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.14/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.14/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.16/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.16/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.21/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.21/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.28/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.06.28/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.07.05/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.07.05/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.07.14/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.07.14/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.07.21/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.07.21/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.07.27/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.07.27/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.08.02/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.08.02/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.08.11/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.08.11/test
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.08.13/train
+Load data from /home/s2/nlp002/pj_data/derived/tfRecords/t12.2022.08.13/test
+Model: "sequential_4"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_41 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_13 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_5"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_42 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_14 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_6"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_43 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_15 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_7"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_44 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_16 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_8"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_45 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_17 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_9"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_46 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_18 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_10"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_47 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_19 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_11"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_48 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_20 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_12"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_49 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_21 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_13"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_50 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_22 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_14"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_51 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_23 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_15"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_52 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_24 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_16"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_53 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_25 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_17"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_54 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_26 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_18"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_55 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_27 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_19"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_56 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_28 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_20"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_57 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_29 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_21"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_58 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_30 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________
+Model: "sequential_22"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_59 (Dense)            (None, None, 256)         65792     
+                                                                 
+ dropout_31 (Dropout)        (None, None, 256)         0         
+                                                                 
+=================================================================
+Total params: 65,792
+Trainable params: 65,792
+Non-trainable params: 0
+_________________________________________________________________

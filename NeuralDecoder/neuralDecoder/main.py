@@ -6,7 +6,8 @@ from omegaconf import OmegaConf
 from hydra.core.hydra_config import HydraConfig
 import torch
 
-from neuralDecoder.neuralSequenceDecoder import NeuralSequenceDecoder
+# from neuralDecoder.neuralSequenceDecoder import NeuralSequenceDecoder
+from neuralDecoder.neuralSequenceDecoder_transformer import NeuralSequenceDecoder
 
 @hydra.main(config_path='configs', config_name='config')
 def app(config):
