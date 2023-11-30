@@ -96,7 +96,7 @@ def convertToTFRecord(sessionData, recordFolder, partIdx):
 
             classLabels = np.zeros([inputFeats.shape[0], nClasses]).astype(np.float32)
             newClassSignal = np.zeros([inputFeats.shape[0], 1]).astype(np.float32)
-            seqClassIDs = np.zeros([maxSeqLen]).astype(np.int32)
+            seqClassIDs = np.zeros([maxSeqLen + 2]).astype(np.int32)
 
             thisTranscription = sessionData['transcriptions'][trialIdx]
 
@@ -119,7 +119,12 @@ def convertToTFRecord(sessionData, recordFolder, partIdx):
                 phonemes.append('SIL')
 
             seqLen = len(phonemes)
-            seqClassIDs[0:seqLen] = [phoneToId(p) + 1 for p in phonemes]
+            # start token
+            seqClassIDs[0] = 44
+            seqClassIDs[1:seqLen+1] = [phoneToId(p) + 1 for p in phonemes]
+            # end token
+            seqClassIDs[seqLen+1] = 43
+            seqClassIDs[seqLen+2] = 43
             print(phonemes)
 
             print(thisTranscription)
@@ -134,7 +139,7 @@ def convertToTFRecord(sessionData, recordFolder, partIdx):
                 'newClassSignal': _floats_feature(np.ravel(newClassSignal).tolist()),
                 'seqClassIDs': _ints_feature(seqClassIDs),
                 'nTimeSteps': _ints_feature([sessionData['frameLens'][trialIdx]]),
-                'nSeqElements': _ints_feature([seqLen]),
+                'nSeqElements': _ints_feature([seqLen + 3]),
                 'ceMask': _floats_feature(np.ravel(ceMask).tolist()),
                 'transcription': _ints_feature(paddedTranscription)}
 
