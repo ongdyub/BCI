@@ -94,11 +94,23 @@ class NeuralSequenceDecoder(object):
             conv_kwargs=self.args["model"].get("conv_kwargs", None),
             stack_kwargs=self.args["model"].get("stack_kwargs", None),
         )
+        
         if "inputNetwork" in self.args["model"]:
+            # GRU
+            # self.model(
+            #     tf.keras.Input(
+            #         shape=(
+            #             None,
+            #             self.args["model"]["inputNetwork"]["inputLayerSizes"][-1],
+            #         )
+            #     )
+            # )
+            
+            # LSTM
             self.model(
                 tf.keras.Input(
                     shape=(
-                        None,
+                        self.args["model"]["inputNetwork"]["inputLayerSizes"][-1],
                         self.args["model"]["inputNetwork"]["inputLayerSizes"][-1],
                     )
                 )
@@ -115,7 +127,7 @@ class NeuralSequenceDecoder(object):
                 )
             )
         self.model.trainable = self.args["model"].get("trainable", True)
-        self.model.summary()
+        # self.model.summary()
 
         self._prepareForTraining()
 
@@ -477,7 +489,8 @@ class NeuralSequenceDecoder(object):
 
         # Tensorboard summary
         if self.args["mode"] == "train":
-            self.summary_writer = tf.summary.create_file_writer(self.args["outputDir"])
+            pass
+            # self.summary_writer = tf.summary.create_file_writer(self.args["outputDir"])
 
     def _datasetLayerTransform(
         self,
@@ -765,29 +778,29 @@ class NeuralSequenceDecoder(object):
 
         prefix = "train" if isTrainBatch else "val"
 
-        with self.summary_writer.as_default():
-            if isTrainBatch:
-                tf.summary.scalar(
-                    f"{prefix}/predictionLoss",
-                    minibatchOutput["predictionLoss"],
-                    step=batchIdx,
-                )
-                tf.summary.scalar(
-                    f"{prefix}/regLoss",
-                    minibatchOutput["regularizationLoss"],
-                    step=batchIdx,
-                )
-                tf.summary.scalar(
-                    f"{prefix}/gradNorm", minibatchOutput["gradNorm"], step=batchIdx
-                )
-            tf.summary.scalar(
-                f"{prefix}/seqErrorRate",
-                tf.reduce_mean(minibatchOutput["seqErrorRate"]),
-                step=batchIdx,
-            )
-            tf.summary.scalar(
-                f"{prefix}/computationTime", computationTime, step=batchIdx
-            )
+        # with self.summary_writer.as_default():
+        #     if isTrainBatch:
+        #         tf.summary.scalar(
+        #             f"{prefix}/predictionLoss",
+        #             minibatchOutput["predictionLoss"],
+        #             step=batchIdx,
+        #         )
+        #         tf.summary.scalar(
+        #             f"{prefix}/regLoss",
+        #             minibatchOutput["regularizationLoss"],
+        #             step=batchIdx,
+        #         )
+        #         tf.summary.scalar(
+        #             f"{prefix}/gradNorm", minibatchOutput["gradNorm"], step=batchIdx
+        #         )
+        #     tf.summary.scalar(
+        #         f"{prefix}/seqErrorRate",
+        #         tf.reduce_mean(minibatchOutput["seqErrorRate"]),
+        #         step=batchIdx,
+        #     )
+        #     tf.summary.scalar(
+        #         f"{prefix}/computationTime", computationTime, step=batchIdx
+        #     )
             # if isTrainBatch:
             #    tf.summary.scalar(
             #        f'{prefix}/lr', self.optimizer._decayed_lr(tf.float32), step=batchIdx)

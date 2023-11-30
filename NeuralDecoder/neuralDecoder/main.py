@@ -4,12 +4,15 @@ import hydra
 import wandb
 from omegaconf import OmegaConf
 from hydra.core.hydra_config import HydraConfig
+import torch
 
 from neuralDecoder.neuralSequenceDecoder import NeuralSequenceDecoder
 
 @hydra.main(config_path='configs', config_name='config')
 def app(config):
     #print(OmegaConf.to_yaml(config))
+    print("-----------------------------START-----------------------------")
+    print(torch.cuda.is_available())
 
     #set the visible device to the gpu specified in 'args' (otherwise tensorflow will steal all the GPUs)
     if 'gpuNumber' in config:
