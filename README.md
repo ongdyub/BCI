@@ -52,7 +52,9 @@
 
 ```deepspeech_attention.py``` / ```deepspeech.py```
 
-```models.py``` / ```neuralSequenceDecoder.py``` *(Parital)
+```models.py``` / ```neuralSequenceDecoder.py``` *(Partial)
+
+```AnalysisExamples/makeTFRecordsFromSession_TransformerTrain.py```
 
 
 ## How to Run
@@ -66,15 +68,15 @@
 3. Edit the ```NeuralDecocer/neuralDecoder/configs``` and ```NeuralDecoder/neuralDecoder/datasets``` Path and Hyper parameters
 
 
-4. Set the model type in main.py
+4. Set the Model Class Type and Path in ```main.py```
 
 5. ```
    python3 -m neuralDecoder.main \
     dataset=speech_release_baseline \
     model=gru_stack_inputNet \
-    learnRateDecaySteps=10000 \
-    nBatchesToTrain=10000  \
-    learnRateStart=0.02 \
+    learnRateDecaySteps=10000 \ * optional
+    nBatchesToTrain=10000  \ * optional
+    learnRateStart=0.02 \ * optional
     outputDir="Your Path"
    ```
 
