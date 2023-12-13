@@ -16,7 +16,9 @@
 |   Dense + Attention  |          -         |        -        |      6      |    512   |    8    |   1024   |   0.295   |
 
 
+#### Validation(CER) Curves of ff_dim 4096
 
+![loss](loss.png)
 
 
 ### Task 2. Phonemes to Sentence
