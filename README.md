@@ -1,3 +1,87 @@
+## Result
+
+### Task 1. Brain to Phonemes
+
+|                      |      GRU layer     |   Add position  | # of Layers |  d_model | n_heads |  ff_dim  |    CER    |
+|:--------------------:|:------------------:|:---------------:|:-----------:|:--------:|:-------:|:--------:|:---------:|
+|       Baseline       |          5         |        -        |      -      |     -    |    -    |     -    |   0.188   |
+|       Baseline       | GRU + Bi-direction |        -        |      -      |     -    |    -    |     -    |   0.185   |
+|       Baseline       | LSTM + Bidirection |        -        |      -      |     -    |    -    |     -    |   0.185   |
+|   Base + Attention   |          5         |      Output     |      1      |   1024   |    2    |   4096   |   0.188   |
+|   Base + Attention   |          5         |      Middle     |      1      |   1024   |    2    |   2048   |   0.186   |
+| **Base + Attention** |        **5**       |    **Middle**   |    **1**    | **1024** |  **2**  | **4096** | **0.176** |
+|   Base + Attention   |          5         | Middle + Output |    1 + 1    |   1024   |    2    |   1024   |   0.187   |
+|   Base + Attention   |          5         | Middle + Output |    1 + 1    |   1024   |    2    |   4096   |   0.183   |
+|   Dense + Attention  |          -         |        -        |      4      |    512   |    2    |    512   |   0.282   |
+|   Dense + Attention  |          -         |        -        |      6      |    512   |    8    |   1024   |   0.295   |
+
+
+
+
+
+### Task 2. Phonemes to Sentence
+
+|                Method               |    WER    |
+|:-----------------------------------:|:---------:|
+|           GRU-Base + 3gram          |   0.156   |
+|       GRU-Bi-direction + 3gram      |   0.151   |
+|           GRU-Base + GPT2           |   0.153   |
+|   GRU-Bi-direction + GPT2 + K=100   |   0.146   |
+| **GRU-Bi-direction + GPT2 + K=200** | **0.133** |
+|     Not Pre-Trained Transformer (4, 128, 512, 8)    |   0.562   |
+|    Not Pre-Trained Transformer (6, 512, 2048, 8)    |   0.584   |
+
+
+### (Opt Task 3) Brain to Sentence (Direct Decoding)
+
+|             Method            |  WER  |
+|:-----------------------------:|:-----:|
+|  Not Pre-Trained Transformer (4, 128, 512, 8) | 0.998 |
+| Not Pre-Trained Transformer (6, 512, 2048, 8) | 0.965 |
+
+
+## My Additional Contributions Task List
+
+```_brain_to_sen_model.py``` / ```_brain_to_sen.py```
+
+```_encoder_only.py``` / ```_encoder_transformerNeuralDecoder```
+
+```_pho_to_sen.py``` / ```_pho_decode_model.py```
+
+```deepspeech_attention.py``` / ```deepspeech.py```
+
+```models.py``` / ```neuralSequenceDecoder.py``` *(Parital)
+
+
+## How to Run
+
+1. Download the data at https://datadryad.org/stash/dataset/doi:10.5061/dryad.x69p8czpq ```competitiondata, languageModel``` and move proper path
+
+
+2. Make TF records ```AnalysisExamples/makeTFRecordsFromSession_TransformerTrain.py``` and ```AnalysisExamples/makeTFRecordsFromSession.py```
+
+
+3. Edit the ```NeuralDecocer/neuralDecoder/configs``` and ```NeuralDecoder/neuralDecoder/datasets``` Path and Hyper parameters
+
+
+4. Set the model type in main.py
+
+5. ```
+   python3 -m neuralDecoder.main \
+    dataset=speech_release_baseline \
+    model=gru_stack_inputNet \
+    learnRateDecaySteps=10000 \
+    nBatchesToTrain=10000  \
+    learnRateStart=0.02 \
+    outputDir="Your Path"
+   ```
+
+# Original Repo Link
+
+https://github.com/fwillett/speechBCI
+
+---------------------------------------------------------------------------
+
 ## A high-performance speech neuroprosthesis
 [![System diagram](SystemDiagram.png)](https://www.nature.com/articles/s41586-023-06377-x)
 
