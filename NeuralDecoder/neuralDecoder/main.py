@@ -1,16 +1,27 @@
 import os
-
+import tensorflow as tf
 import hydra
 import wandb
 from omegaconf import OmegaConf
 from hydra.core.hydra_config import HydraConfig
-
-from neuralDecoder.neuralSequenceDecoder import NeuralSequenceDecoder
+import torch
+# from neuralDecoder.neuralSequenceDecoder import NeuralSequenceDecoder
+# from neuralDecoder._brain_to_sen import BrainToSen
+from neuralDecoder._pho_to_sen import PhonemeToSen
 
 @hydra.main(config_path='configs', config_name='config')
 def app(config):
     #print(OmegaConf.to_yaml(config))
-
+    print("---------------------------")
+    print("---------------------------")
+    print("---------------------------")
+    print("---------------------------")
+    print(torch.cuda.is_available())
+    print(torch.cuda.device_count())
+    print("---------------------------")
+    print("---------------------------")
+    print("---------------------------")
+    print("---------------------------")
     #set the visible device to the gpu specified in 'args' (otherwise tensorflow will steal all the GPUs)
     if 'gpuNumber' in config:
         os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
@@ -29,8 +40,9 @@ def app(config):
                          sync_tensorboard=True,
                          resume=True)
 
-    #instantiate the RNN model
-    nsd = NeuralSequenceDecoder(args=config)
+    #instantiate the train model
+    # nsd = BrainToSen(args=config)
+    nsd = PhonemeToSen(args=config)
 
     #train or infer
     if config['mode'] == 'train':
